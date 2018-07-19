@@ -35,7 +35,10 @@ namespace WebapiIdentity
                     //带有正常可用Token  
                     OnValidateClientAuthentication = async (context) =>
                     {
-                        context.Validated();
+                        await Task.Run(() =>
+                        {
+                            context.Validated();
+                        });
                     },
                     //请求Token验证
                     OnGrantResourceOwnerCredentials = async (context) =>
@@ -43,11 +46,14 @@ namespace WebapiIdentity
                         //验证用户名密码
                         //模拟固定用户名密码测试验证，也可通过数据库中的用户名密码进行验证
                         //if (context.UserName == "Reiko" && context.Password == "123")
-                        if (OauthValidTools.CheckUser(context))
+                        await Task.Run(() =>
                         {
-                            ClaimsIdentity oAuthIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
-                            context.Validated(oAuthIdentity);
-                        }
+                            if (OauthValidTools.CheckUser(context))
+                            {
+                                ClaimsIdentity oAuthIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
+                                context.Validated(oAuthIdentity);
+                            }
+                        });
                     }
                 },
                 AllowInsecureHttp = true,
@@ -56,7 +62,5 @@ namespace WebapiIdentity
             //使应用程序能够使用承载令牌对用户进行身份验证
             app.UseOAuthBearerTokens(OAuthOptions);
         }
-
-
     }
 }
