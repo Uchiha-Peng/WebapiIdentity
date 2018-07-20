@@ -27,5 +27,7 @@ namespace WebapiIdentity.Models
         public DbSet<Shopcart> Shopcart { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<User> User { get; set; }
+
+        public System.Data.Entity.DbSet<WebapiIdentity.Models.RequestLog> RequestLogs { get; set; }
     }
 }

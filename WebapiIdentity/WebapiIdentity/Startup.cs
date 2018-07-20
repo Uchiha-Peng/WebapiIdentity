@@ -48,9 +48,14 @@ namespace WebapiIdentity
                         //if (context.UserName == "Reiko" && context.Password == "123")
                         await Task.Run(() =>
                         {
-                            if (OauthValidTools.CheckUser(context))
+                            //允许所有域名都可以访问
+                            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+                            if (OauthValidTools.CheckUser(context, out User user))
                             {
                                 ClaimsIdentity oAuthIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
+                                //oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+                                oAuthIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Uid.ToString()));
+                                oAuthIdentity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
                                 context.Validated(oAuthIdentity);
                             }
                         });
@@ -62,5 +67,7 @@ namespace WebapiIdentity
             //使应用程序能够使用承载令牌对用户进行身份验证
             app.UseOAuthBearerTokens(OAuthOptions);
         }
+
+
     }
 }

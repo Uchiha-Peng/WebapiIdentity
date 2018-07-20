@@ -17,7 +17,7 @@ namespace WebapiIdentity.Controllers
         private ShopDBContext db = new ShopDBContext();
 
         // GET: api/Users
-        [Authorize]
+        [CustomAuthorize]
         public List<User> GetUser()
         {
             List<User> list = db.User.ToList();

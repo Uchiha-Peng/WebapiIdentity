@@ -12,15 +12,24 @@ using WebapiIdentity.Models;
 
 namespace WebapiIdentity.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class ProductsController : ApiController
     {
         private ShopDBContext db = new ShopDBContext();
 
         // GET: api/Products
-        public IQueryable<Product> GetProduct()
+        public IHttpActionResult GetProduct()
         {
-            return db.Product;
+            try
+            {
+                List<Product> proList = new List<Product>();
+                proList = db.Product.ToList();
+                return Json(proList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("服务端出错");
+            }
         }
 
         // GET: api/Products/5

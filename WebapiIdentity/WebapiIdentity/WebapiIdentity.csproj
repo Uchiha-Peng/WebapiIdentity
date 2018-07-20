@@ -126,11 +126,15 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AuthorizeController.cs" />
+    <Compile Include="CommonTools.cs" />
+    <Compile Include="Controllers\RequestLogsController.cs" />
+    <Compile Include="CustomAuthorize.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -143,6 +147,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Orderdetail.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\RequestLog.cs" />
     <Compile Include="Models\Shopcart.cs" />
     <Compile Include="Models\ShopDBContext.cs" />
     <Compile Include="Models\Status.cs" />
